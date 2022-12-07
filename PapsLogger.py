@@ -189,10 +189,12 @@ for file in os.listdir(os.getcwd()):
         print(outputRem)      
         
         #Find first consultant by matching known list of names
-        #Last names allows for maximum flexibility eg. Socorro C Yanez, SC Yanez, Socorro Yanez, all will be recognized as Yanez
-        #Exceptions are Cu and Dy since multiple doctors with same last name
+        #For those with similar last names, add wildcard after distinguishing last letter
+        #Ex. If Katherine Hepburn is a consultant and Audrey Hepburn is a resident:
+        #       A*Hepburn and K*Hepburn so the script will distinguish Aubrey Hepburn from Katherine Hepburn
+        #       This also works if both Katherine and Audrey Hepburn are both consultants or both residents.
         #re.I to ignore case
-        consultantRegex = re.compile(r'(Ya.ez|Demaisip|Santos|Rivera|Mesina|Tilbe|J.*Dy|Ledesma|Jacoba|J.*Cu|MD)',re.I)
+        consultantRegex = re.compile(r'(K*Hepburn|Monroe|Flynn|Wayne|Hayworth|Garland|MD)',re.I)
         consultant = consultantRegex.search(text)
         if consultant is None:
             outputConsultant = "NA"
@@ -202,11 +204,9 @@ for file in os.listdir(os.getcwd()):
         
         #Find first resident by matching known list of names
         #Last names allows for maximum flexibility
-        #Exceptions are Cu and Dy since multiple doctors with same last name
         #findall to list all residents involve
         #re.I to ignore case
-        #Not compatible with Janelyn as resident
-        residentRegex = re.compile(r'(Mark.*Chua|Pastores|RVR.*Cu|Jill.*Perez|FV.*Reyes|VE.*Cruz|ACK Dy|Arn.*Dy|Valera|Dinopol)',re.I)
+        residentRegex = re.compile(r'(A*HepburnTracy|Bergman|Crawford|Fontaine|Dunne|Robinson)',re.I)
         resident = residentRegex.search(text)
         if resident is None:
             outputResident = "NA"

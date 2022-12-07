@@ -162,9 +162,11 @@ for file in os.listdir(os.getcwd()):
             #Look ahead (?<=) of INTERPRETATION and copy everything (.*) until look behind (?=) list of known consultants first names and most common abbreviations
             #re.DOTALL to read multiple lines
             #cleanText remove all \n by replacing them with blank space
+        
+            #Subtitute first name of consultants below
 
             cleanText = text.replace("\n", " ")
-            dxRegex = re.compile(r'(?<=INTERPRETATION)(.*)(?=SOCORRO|EVETTE|MARIA|JO|ARLENE|IMELDA|JANE|JR|JANET|ARACELI)',re.DOTALL)
+            dxRegex = re.compile(r'(?<=INTERPRETATION)(.*)(?=Audrey|Katherine|Marilyn|Errol|John|Riya|Judy)',re.DOTALL)
             dx = dxRegex.search(cleanText)
             if dx is None:
                 outputDx = "NA"
@@ -183,10 +185,15 @@ for file in os.listdir(os.getcwd()):
             print(outputDx)
                 
         #Find first consultant by matching known list of names
-        #Last names allows for maximum flexibility eg. Socorro C Yanez, SC Yanez, Socorro Yanez, all will be recognized as Yanez
-        #Exceptions are Cu and Dy since multiple doctors with same last name
+        #Last names allows for maximum flexibility eg. Errol Leslie Thomson Flynn, ELT Flynn, and Errol Flynn, all will be recognized as Flynn
+        #For those with similar last names, add wildcard after distinguishing last letter
+        #Ex. If Katherine Hepburn is a consultant and Audrey Hepburn is a resident:
+        #       A*Hepburn and K*Hepburn so the script will distinguish Aubrey Hepburn from Katherine Hepburn
+        #       This also works if both Katherine and Audrey Hepburn are both consultants or both residents.
         #re.I to ignore case
-        consultantRegex = re.compile(r'(Ya.ez|Demaisip|Santos|Rivera|Mesina|Tilbe|Janet.*Dy|Ledesma|Jacoba|J.*Cu|MD)',re.I)
+        
+        #Subtitute last name of consultants below
+        consultantRegex = re.compile(r'(K*Hepburn|Monroe|Flynn|Wayne|Hayworth|Garland|MD)',re.I)
         consultant = consultantRegex.search(text)
         if consultant is None:
             outputConsultant = "NA"
@@ -196,11 +203,10 @@ for file in os.listdir(os.getcwd()):
         
         #Find first resident by matching known list of names
         #Last names allows for maximum flexibility
-        #Exceptions are Cu and Dy since multiple doctors with same last name
         #findall to list all residents involve
+        #Follow guidelines above
         #re.I to ignore case
-        #Not compatible with Janelyn as resident
-        residentRegex = re.compile(r'(Mark.*Chua|Pastores|Ricka.*Cu|RVR.*Cu|Jill.*Perez|De.*Reyes|VE.*Cruz|ACK Dy|Ar.*Dy|Valera|Dinopol)',re.I)
+        residentRegex = re.compile(r'(A*HepburnTracy|Bergman|Crawford|Fontaine|Dunne|Robinson)',re.I)
         resident = residentRegex.search(text)
         if resident is None:
             outputResident = "NA"

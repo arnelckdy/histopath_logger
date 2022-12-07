@@ -15,6 +15,9 @@ Paps Logger does the same thing but is made to read Pap smear reports.
 3. HistopathLogger.ipynb and PapsLogger.ipynb are the Jupyter note files for histopathology reports and Pap smears respectively.
 
 ## Change Log
+### 0.3 - 12.07.22
+- Added in list of example names for anonymity purposes.
+
 ### 0.2 - 11.29.22
 - Created virtual environment for project.
 - Exported dependencies to requirements.txt.
